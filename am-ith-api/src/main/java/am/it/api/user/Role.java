@@ -1,4 +1,4 @@
-package am.it.api.dto.user;
+package am.it.api.user;
 
 public enum Role {
   ROLE_CLIENT

@@ -1,9 +1,9 @@
-package am.it.api;
+package am.it.api.user;
 
-import am.it.api.dto.user.request.SignInRequest;
-import am.it.api.dto.user.request.SignUpRequest;
-import am.it.api.dto.user.response.SignInResponse;
-import am.it.api.dto.user.response.SignUpResponse;
+import am.it.api.user.request.SignInRequest;
+import am.it.api.user.request.SignUpRequest;
+import am.it.api.user.response.SignInResponse;
+import am.it.api.user.response.SignUpResponse;
 import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

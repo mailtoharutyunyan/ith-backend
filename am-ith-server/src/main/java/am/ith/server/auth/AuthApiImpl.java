@@ -1,10 +1,10 @@
 package am.ith.server.auth;
 
-import am.it.api.AuthApi;
-import am.it.api.dto.user.request.SignInRequest;
-import am.it.api.dto.user.request.SignUpRequest;
-import am.it.api.dto.user.response.SignInResponse;
-import am.it.api.dto.user.response.SignUpResponse;
+import am.it.api.user.AuthApi;
+import am.it.api.user.request.SignInRequest;
+import am.it.api.user.request.SignUpRequest;
+import am.it.api.user.response.SignInResponse;
+import am.it.api.user.response.SignUpResponse;
 import am.ith.service.model.User;
 import am.ith.service.security.JwtService;
 import am.ith.service.service.UserService;

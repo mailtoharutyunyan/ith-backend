@@ -1,6 +1,6 @@
 package am.ith.service.mapper;
 
-import am.it.api.dto.user.request.SignUpRequest;
+import am.it.api.user.request.SignUpRequest;
 import am.ith.service.model.User;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.function.Function;
 
-import static am.it.api.dto.user.Role.ROLE_CLIENT;
+import static am.it.api.user.Role.ROLE_CLIENT;
 
 @Component
 public final class SignUpRequestMapper implements Function<SignUpRequest, User> {

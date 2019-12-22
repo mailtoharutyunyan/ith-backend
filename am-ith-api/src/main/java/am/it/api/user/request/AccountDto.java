@@ -1,4 +1,4 @@
-package am.it.api.dto.user.request;
+package am.it.api.user.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -13,6 +13,7 @@ import java.util.UUID;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 @ToString
+@Builder
 public class Topic extends BaseEntity {
 
   private UUID uuid;

@@ -1,4 +1,4 @@
-package am.it.api.dto.user.response;
+package am.it.api.user.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
