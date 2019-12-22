@@ -21,13 +21,13 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class CourseMapper {
+public final class CourseMapper {
 
   private final LevelRepository levelRepository;
   private final TrainerRepository trainerRepository;
   private final TopicRepository topicRepository;
 
-  Course toCourseModel(CourseRequest courseRequest) {
+ public Course toCourseModel(CourseRequest courseRequest) {
     return Course.builder()
         .firstCourseDescription(courseRequest.getCourseFirstDescription())
         .secondCourseDescription(courseRequest.getCourseSecondDescription())
@@ -35,7 +35,7 @@ public class CourseMapper {
         .build();
   }
 
-  CourseResponse toCourseResponse(Course course) {
+  public CourseResponse toCourseResponse(Course course) {
     List<Trainer> trainerList = trainerRepository.findAll();
     List<TrainerResponse> trainerResponseList =
         trainerList.stream()

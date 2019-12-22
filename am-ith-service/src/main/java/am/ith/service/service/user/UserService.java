@@ -1,4 +1,4 @@
-package am.ith.service.service;
+package am.ith.service.service.user;
 
 import am.it.api.user.request.SignUpRequest;
 import am.it.api.user.response.SignUpResponse;

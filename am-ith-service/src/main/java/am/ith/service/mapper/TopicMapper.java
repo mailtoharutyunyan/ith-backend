@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class TopicMapper {
+public final class TopicMapper {
 
   public TopicResponse toTopicResponse(Topic topic) {
     return TopicResponse.builder()

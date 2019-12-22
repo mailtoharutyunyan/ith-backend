@@ -2,6 +2,7 @@ package am.it.api.course.response;
 
 import am.it.api.trainer.response.TrainerResponse;
 import am.it.api.level.response.LevelResponse;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Data
 @Builder
+@AllArgsConstructor
 public class CourseResponse {
 
   private String coursePicture;

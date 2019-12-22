@@ -1,4 +1,4 @@
-package am.ith.service.service;
+package am.ith.service.service.user.impl;
 
 import am.it.api.user.request.SignUpRequest;
 import am.it.api.user.response.SignUpResponse;
@@ -7,6 +7,7 @@ import am.ith.service.exception.AccountExistsException;
 import am.ith.service.mapper.SignUpRequestMapper;
 import am.ith.service.model.User;
 import am.ith.service.repository.UserRepository;
+import am.ith.service.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

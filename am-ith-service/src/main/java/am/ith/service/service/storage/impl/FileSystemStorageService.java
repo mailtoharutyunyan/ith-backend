@@ -1,9 +1,9 @@
-package am.ith.service.service.impl;
+package am.ith.service.service.storage.impl;
 
 import am.ith.service.config.StorageProperties;
 import am.ith.service.exception.FileNotFoundException;
 import am.ith.service.exception.StorageException;
-import am.ith.service.service.StorageService;
+import am.ith.service.service.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;

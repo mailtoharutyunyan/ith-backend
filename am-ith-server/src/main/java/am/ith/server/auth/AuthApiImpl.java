@@ -7,7 +7,7 @@ import am.it.api.user.response.SignInResponse;
 import am.it.api.user.response.SignUpResponse;
 import am.ith.service.model.User;
 import am.ith.service.security.JwtService;
-import am.ith.service.service.UserService;
+import am.ith.service.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
