@@ -9,6 +9,7 @@ import am.ith.service.model.Course;
 import am.ith.service.repository.CourseRepository;
 import am.ith.service.service.course.CourseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class CourseServiceImpl implements CourseService {
   private final TrainerMapper trainerMapper;
 
   @Override
+  @PreAuthorize(value = "hasRole('USER')")
   public List<CourseResponse> courseResponseList() {
     return courseRepository.findAll().stream()
         .map(

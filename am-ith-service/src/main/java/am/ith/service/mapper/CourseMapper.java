@@ -27,8 +27,9 @@ public final class CourseMapper {
   private final TrainerRepository trainerRepository;
   private final TopicRepository topicRepository;
 
- public Course toCourseModel(CourseRequest courseRequest) {
+  public Course toCourseModel(CourseRequest courseRequest) {
     return Course.builder()
+        .courseName(courseRequest.getCourseName())
         .firstCourseDescription(courseRequest.getCourseFirstDescription())
         .secondCourseDescription(courseRequest.getCourseSecondDescription())
         .coursePicture(courseRequest.getCoursePicture())
