@@ -42,6 +42,6 @@ class AuthApiImpl implements AuthApi {
         new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword()));
     User user = userService.findByEmailOrUserName(request.getLogin());
     String token = jwtService.generateToken(user.getRoles(), user.getExternalId());
-    return ResponseEntity.ok(new SignInResponse(token));
+    return ResponseEntity.ok(new SignInResponse("Bearer ".concat(token)));
   }
 }
