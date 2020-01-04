@@ -40,8 +40,7 @@ public class CourseServiceImpl implements CourseService {
         .collect(Collectors.toList());
   }
 
-  @Override
-  public CourseResponse getCourseByUUID(Long id) {
+  public CourseResponse getCourseById(Long id) {
     return courseMapper.toCourseResponse(courseRepository.getOne(id));
   }
 
