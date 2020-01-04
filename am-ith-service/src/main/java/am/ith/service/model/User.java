@@ -1,6 +1,6 @@
 package am.ith.service.model;
 
-import am.it.api.dto.user.Role;
+import am.it.api.user.Role;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 

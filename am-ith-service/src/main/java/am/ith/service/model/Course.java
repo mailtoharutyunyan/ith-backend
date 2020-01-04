@@ -19,14 +19,19 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@Builder
 @EqualsAndHashCode(callSuper = true)
 public class Course extends BaseEntity {
 
   private UUID uuid;
 
+  private String courseName;
+
   private String coursePicture;
 
-  private String courseDescription;
+  private String firstCourseDescription;
+
+  private String secondCourseDescription;
 
   @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
   @LazyCollection(LazyCollectionOption.FALSE)

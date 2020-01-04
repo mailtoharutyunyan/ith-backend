@@ -18,6 +18,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@Builder
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
