@@ -2,7 +2,7 @@ package am.ith.service.mapper;
 
 import am.it.api.level.request.LevelRequest;
 import am.it.api.level.response.LevelResponse;
-import am.it.api.topic.TopicResponse;
+import am.it.api.topic.response.TopicResponse;
 import am.ith.service.model.Level;
 import am.ith.service.repository.TopicRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,6 @@ public final class LevelMapper {
   public LevelResponse toLevelResponse(Level level) {
     return LevelResponse.builder()
         .levelNumber(level.getLevelNumber())
-        .uuid(level.getUuid())
         .topics(topicMapper.toTopicResponseList(level.getTopics()))
         .build();
   }
@@ -36,10 +35,10 @@ public final class LevelMapper {
   public List<LevelResponse> toLevelResponseList(List<Level> levels) {
     List<TopicResponse> topicResponses =
         topicRepository.findAll().stream()
-            .map(topic -> new TopicResponse(topic.getUuid(), topic.getTopicDetails()))
+            .map(topic -> new TopicResponse(topic.getTopicDetails()))
             .collect(Collectors.toList());
     return levels.stream()
-        .map(level -> new LevelResponse(level.getUuid(), level.getLevelNumber(), topicResponses))
+        .map(level -> new LevelResponse(level.getLevelNumber(), topicResponses))
         .collect(Collectors.toList());
   }
 }

@@ -1,4 +1,4 @@
-package am.it.api.topic;
+package am.it.api.topic.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,5 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class TopicResponse {
-
-  private UUID uuid;
   private String topicDetails;
 }

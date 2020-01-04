@@ -2,9 +2,9 @@ package am.ith.service.mapper;
 
 import am.it.api.course.request.CourseRequest;
 import am.it.api.course.response.CourseResponse;
-import am.it.api.topic.TopicResponse;
-import am.it.api.trainer.response.TrainerResponse;
 import am.it.api.level.response.LevelResponse;
+import am.it.api.topic.response.TopicResponse;
+import am.it.api.trainer.response.TrainerResponse;
 import am.ith.service.model.Course;
 import am.ith.service.model.Level;
 import am.ith.service.model.Topic;
@@ -15,7 +15,6 @@ import am.ith.service.repository.TrainerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +42,6 @@ public final class CourseMapper {
             .map(
                 trainer ->
                     new TrainerResponse(
-                        trainer.getUuid(),
                         trainer.getTrainerName(),
                         trainer.getDeveloperType(),
                         trainer.getDeveloperDescription(),
@@ -55,14 +53,14 @@ public final class CourseMapper {
     List<Topic> topicList = topicRepository.findAll();
     List<TopicResponse> topicResponses =
         topicList.stream()
-            .map(topic -> new TopicResponse(topic.getUuid(), topic.getTopicDetails()))
+            .map(topic -> new TopicResponse(topic.getTopicDetails()))
             .collect(Collectors.toList());
 
     List<Level> levelList = levelRepository.findAll();
     List<LevelResponse> levelResponseList =
         levelList.stream()
             .map(
-                level -> new LevelResponse(level.getUuid(), level.getLevelNumber(), topicResponses))
+                level -> new LevelResponse(level.getLevelNumber(), topicResponses))
             .collect(Collectors.toList());
 
     return CourseResponse.builder()

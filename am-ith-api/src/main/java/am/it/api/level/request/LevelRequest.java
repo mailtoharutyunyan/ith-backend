@@ -8,6 +8,5 @@ import java.util.UUID;
 @Builder
 @Data
 public class LevelRequest {
-  private UUID uuid;
   private String levelNumber;
 }

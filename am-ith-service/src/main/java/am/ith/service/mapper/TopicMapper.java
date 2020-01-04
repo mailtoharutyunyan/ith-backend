@@ -1,7 +1,7 @@
 package am.ith.service.mapper;
 
-import am.it.api.topic.TopicRequest;
-import am.it.api.topic.TopicResponse;
+import am.it.api.topic.request.TopicRequest;
+import am.it.api.topic.response.TopicResponse;
 import am.ith.service.model.Topic;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,6 @@ public final class TopicMapper {
 
   public TopicResponse toTopicResponse(Topic topic) {
     return TopicResponse.builder()
-        .uuid(topic.getUuid())
         .topicDetails(topic.getTopicDetails())
         .build();
   }
@@ -24,7 +23,7 @@ public final class TopicMapper {
 
   public List<TopicResponse> toTopicResponseList(List<Topic> topics) {
     return topics.stream()
-        .map(topic -> new TopicResponse(topic.getUuid(), topic.getTopicDetails()))
+        .map(topic -> new TopicResponse(topic.getTopicDetails()))
         .collect(Collectors.toList());
   }
 

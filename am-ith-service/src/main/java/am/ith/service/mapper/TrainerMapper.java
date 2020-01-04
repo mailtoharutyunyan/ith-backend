@@ -24,7 +24,6 @@ public final class TrainerMapper {
 
   public TrainerResponse toTrainerResponse(Trainer trainer) {
     return TrainerResponse.builder()
-        .trainerUUID(trainer.getUuid())
         .trainerName(trainer.getTrainerName())
         .trainerPicture(trainer.getDeveloperImage())
         .developerDescription(trainer.getDeveloperDescription())
@@ -39,7 +38,6 @@ public final class TrainerMapper {
         .map(
             trainer ->
                 new TrainerResponse(
-                    trainer.getUuid(),
                     trainer.getTrainerName(),
                     trainer.getDeveloperType(),
                     trainer.getDeveloperDescription(),
