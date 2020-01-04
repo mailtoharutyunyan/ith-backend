@@ -10,9 +10,9 @@ public interface CourseService {
 
   List<CourseResponse> courseResponseList();
 
-  CourseResponse getCourseById(Long uuid);
+  CourseResponse getCourseById(Long id);
 
   CourseResponse createCourse(CourseRequest courseRequest);
 
-  CourseRequest updateCourse(String uuid, CourseRequest courseRequest);
+  CourseRequest updateCourse(String courseId, CourseRequest courseRequest);
 }

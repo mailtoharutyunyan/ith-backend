@@ -1,8 +1,11 @@
 package am.ith.service.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.util.UUID;
 
@@ -16,11 +19,12 @@ import java.util.UUID;
 @Builder
 public class Topic extends BaseEntity {
 
-  private UUID uuid;
 
   private String topicDetails;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "level_id", nullable = false)
+  @JsonIgnore
   private Level level;
 
 }

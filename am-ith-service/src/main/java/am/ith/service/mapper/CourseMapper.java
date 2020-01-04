@@ -9,9 +9,6 @@ import am.ith.service.model.Course;
 import am.ith.service.model.Level;
 import am.ith.service.model.Topic;
 import am.ith.service.model.Trainer;
-import am.ith.service.repository.LevelRepository;
-import am.ith.service.repository.TopicRepository;
-import am.ith.service.repository.TrainerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,9 +19,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public final class CourseMapper {
 
-  private final LevelRepository levelRepository;
-  private final TrainerRepository trainerRepository;
-  private final TopicRepository topicRepository;
+  private final LevelMapper levelMapper;
+  private final TrainerMapper trainerMapper;
+
+  public List<CourseResponse> toCourseResponseList(List<Course> courses) {
+    return courses.stream()
+        .map(
+            course ->
+                new CourseResponse(
+                    course.getId(),
+                    course.getCoursePicture(),
+                    course.getCourseName(),
+                    course.getFirstCourseDescription(),
+                    course.getSecondCourseDescription(),
+                    levelMapper.toLevelResponseList(course.getLevels()),
+                    trainerMapper.toTrainerResponse(course.getTrainers())))
+        .collect(Collectors.toList());
+  }
 
   public Course toCourseModel(CourseRequest courseRequest) {
     return Course.builder()
@@ -35,8 +46,9 @@ public final class CourseMapper {
         .build();
   }
 
-  public CourseResponse toCourseResponse(Course course) {
-    List<Trainer> trainerList = trainerRepository.findAll();
+  public CourseResponse toCourseResponse(
+      Course course, List<Trainer> trainerList, List<Topic> topicList, List<Level> levelList) {
+
     List<TrainerResponse> trainerResponseList =
         trainerList.stream()
             .map(
@@ -50,20 +62,17 @@ public final class CourseMapper {
                         trainer.getDeveloperImage()))
             .collect(Collectors.toList());
 
-    List<Topic> topicList = topicRepository.findAll();
     List<TopicResponse> topicResponses =
         topicList.stream()
             .map(topic -> new TopicResponse(topic.getTopicDetails()))
             .collect(Collectors.toList());
-
-    List<Level> levelList = levelRepository.findAll();
     List<LevelResponse> levelResponseList =
         levelList.stream()
-            .map(
-                level -> new LevelResponse(level.getLevelNumber(), topicResponses))
+            .map(level -> new LevelResponse(level.getLevelNumber(), topicResponses))
             .collect(Collectors.toList());
 
     return CourseResponse.builder()
+        .courseId(course.getId())
         .courseFirstDescription(course.getFirstCourseDescription())
         .courseSecondDescription(course.getSecondCourseDescription())
         .coursePicture(course.getCoursePicture())

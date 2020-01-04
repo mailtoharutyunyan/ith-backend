@@ -1,17 +1,12 @@
 package am.ith.service.model;
 
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
@@ -23,8 +18,6 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 public class Course extends BaseEntity {
 
-  private UUID uuid;
-
   private String courseName;
 
   private String coursePicture;
@@ -33,13 +26,9 @@ public class Course extends BaseEntity {
 
   private String secondCourseDescription;
 
-  @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @Fetch(value = FetchMode.SUBSELECT)
+  @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Level> levels;
 
-  @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @Fetch(value = FetchMode.SUBSELECT)
+  @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Trainer> trainers;
 }
