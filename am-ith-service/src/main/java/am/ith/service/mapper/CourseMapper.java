@@ -6,11 +6,10 @@ import am.it.api.level.response.LevelResponse;
 import am.it.api.topic.response.TopicResponse;
 import am.it.api.trainer.response.TrainerResponse;
 import am.ith.service.model.Course;
-import am.ith.service.model.Level;
-import am.ith.service.model.Trainer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,10 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public final class CourseMapper {
 
-  private final LevelMapper levelMapper;
-  private final TrainerMapper trainerMapper;
-
-  public Course toCourseModel(CourseRequest courseRequest) {
+  public Course toCourseModel(final CourseRequest courseRequest) {
     return Course.builder()
         .courseName(courseRequest.getCourseName())
         .firstCourseDescription(courseRequest.getCourseFirstDescription())
@@ -30,34 +26,49 @@ public final class CourseMapper {
         .build();
   }
 
-  public CourseResponse toCourseResponse(
-      Course course, List<Trainer> trainerList, List<Level> levelList) {
+  public Course combineCourses(final Course course, final Course finalCourse) {
+    finalCourse.setLevels(course.getLevels());
+    finalCourse.setCourseName(course.getCourseName());
+    finalCourse.setCoursePicture(course.getCoursePicture());
+    finalCourse.setFirstCourseDescription(course.getFirstCourseDescription());
+    finalCourse.setSecondCourseDescription(course.getSecondCourseDescription());
+    finalCourse.setTrainers(course.getTrainers());
+    return finalCourse;
+  }
 
-    List<TrainerResponse> trainerResponseList =
-        trainerList.stream()
-            .map(
-                trainer ->
-                    new TrainerResponse(
-                        trainer.getTrainerName(),
-                        trainer.getDeveloperType(),
-                        trainer.getDeveloperDescription(),
-                        trainer.getFacebookLink(),
-                        trainer.getLinkedinLink(),
-                        trainer.getDeveloperImage()))
-            .collect(Collectors.toList());
+  public CourseResponse toCourseResponse(final Course course) {
 
-    List<LevelResponse> levelResponseList =
-        levelList.stream()
-            .map(
-                level -> {
-                  List<TopicResponse> topics =
-                      level.getTopics().stream()
-                          .map(topic -> new TopicResponse(topic.getId(), topic.getTopicDetails()))
-                          .collect(Collectors.toList());
+    List<TrainerResponse> trainerResponseList = new ArrayList<>();
+    List<LevelResponse> levelResponseList = new ArrayList<>();
+    if (course.getTrainers() != null) {
+      trainerResponseList =
+          course.getTrainers().stream()
+              .map(
+                  trainer ->
+                      new TrainerResponse(
+                          trainer.getTrainerName(),
+                          trainer.getDeveloperType(),
+                          trainer.getDeveloperDescription(),
+                          trainer.getFacebookLink(),
+                          trainer.getLinkedinLink(),
+                          trainer.getDeveloperImage()))
+              .collect(Collectors.toList());
+    }
 
-                  return new LevelResponse(level.getId(), level.getLevelNumber(), topics);
-                })
-            .collect(Collectors.toList());
+    if (course.getLevels() != null) {
+      levelResponseList =
+          course.getLevels().stream()
+              .map(
+                  level -> {
+                    List<TopicResponse> topics =
+                        level.getTopics().stream()
+                            .map(topic -> new TopicResponse(topic.getId(), topic.getTopicDetails()))
+                            .collect(Collectors.toList());
+
+                    return new LevelResponse(level.getId(), level.getLevelNumber(), topics);
+                  })
+              .collect(Collectors.toList());
+    }
 
     return CourseResponse.builder()
         .courseId(course.getId())
