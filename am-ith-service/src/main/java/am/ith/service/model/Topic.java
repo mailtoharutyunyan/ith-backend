@@ -15,7 +15,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-@ToString
 @Builder
 public class Topic extends BaseEntity {
 

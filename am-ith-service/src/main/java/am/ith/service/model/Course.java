@@ -13,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Builder
 @EqualsAndHashCode(callSuper = true)
 public class Course extends BaseEntity {

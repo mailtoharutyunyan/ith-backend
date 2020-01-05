@@ -4,7 +4,7 @@ import am.it.api.level.request.LevelRequest;
 import am.it.api.level.response.LevelResponse;
 import am.it.api.topic.response.TopicResponse;
 import am.ith.service.model.Level;
-import am.ith.service.repository.TopicRepository;
+import am.ith.service.model.Topic;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +15,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public final class LevelMapper {
 
-  private final TopicRepository topicRepository;
   private final TopicMapper topicMapper;
 
-  public Level toLevel(LevelRequest levelRequest) {
+  public Level toLevel(LevelRequest levelRequest, List<Topic> topicResponses) {
     return Level.builder()
         .levelNumber(levelRequest.getLevelNumber())
-        .topics(topicRepository.findAll())
+        .topics(topicResponses)
         .build();
   }
 
@@ -32,9 +31,9 @@ public final class LevelMapper {
         .build();
   }
 
-  public List<LevelResponse> toLevelResponseList(List<Level> levels) {
+  public List<LevelResponse> toLevelResponseList(List<Level> levels, List<Topic> topics) {
     List<TopicResponse> topicResponses =
-        topicRepository.findAll().stream()
+        topics.stream()
             .map(topic -> new TopicResponse(topic.getTopicDetails()))
             .collect(Collectors.toList());
     return levels.stream()

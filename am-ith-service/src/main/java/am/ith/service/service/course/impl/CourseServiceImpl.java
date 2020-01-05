@@ -35,7 +35,8 @@ public class CourseServiceImpl implements CourseService {
   public List<CourseResponse> courseResponseList() {
     List<Course> courses = courseRepository.findAll();
     log.info("Getting list from database {}", courses);
-    List<CourseResponse> courseResponseList = courseMapper.toCourseResponseList(courses);
+    List<Topic> topics = topicRepository.findAll();
+    List<CourseResponse> courseResponseList = courseMapper.toCourseResponseList(courses, topics);
     log.info("After course mapper {}", courseResponseList);
     return courseResponseList;
   }

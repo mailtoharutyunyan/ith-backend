@@ -11,9 +11,9 @@ import java.util.List;
 
 public interface CourseApi {
 
-  @PostMapping(value = "/create")
+  @PostMapping(value = "/courses/create")
   ResponseEntity<CourseResponse> createCourse(@RequestBody CourseRequest courseRequest);
 
-  @GetMapping(value = "/getAll")
+  @GetMapping(value = "/courses/getAll")
   ResponseEntity<List<CourseResponse>> getAllCourses();
 }

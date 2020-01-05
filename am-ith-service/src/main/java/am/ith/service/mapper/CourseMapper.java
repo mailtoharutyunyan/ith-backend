@@ -22,7 +22,7 @@ public final class CourseMapper {
   private final LevelMapper levelMapper;
   private final TrainerMapper trainerMapper;
 
-  public List<CourseResponse> toCourseResponseList(List<Course> courses) {
+  public List<CourseResponse> toCourseResponseList(List<Course> courses, List<Topic> topics) {
     return courses.stream()
         .map(
             course ->
@@ -32,7 +32,7 @@ public final class CourseMapper {
                     course.getCourseName(),
                     course.getFirstCourseDescription(),
                     course.getSecondCourseDescription(),
-                    levelMapper.toLevelResponseList(course.getLevels()),
+                    levelMapper.toLevelResponseList(course.getLevels(), topics),
                     trainerMapper.toTrainerResponse(course.getTrainers())))
         .collect(Collectors.toList());
   }
