@@ -2,7 +2,6 @@ package am.ith.service.service.course;
 
 import am.it.api.course.request.CourseRequest;
 import am.it.api.course.response.CourseResponse;
-import am.ith.service.model.Course;
 
 import java.util.List;
 

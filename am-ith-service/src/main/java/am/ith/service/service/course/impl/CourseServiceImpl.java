@@ -14,8 +14,6 @@ import am.ith.service.service.course.CourseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,32 +32,35 @@ public class CourseServiceImpl implements CourseService {
   @Override
   public List<CourseResponse> courseResponseList() {
 
-    List<Course> courses = courseRepository.findAll();
+    final List<Course> courses = this.courseRepository.findAll();
     return courses.stream()
         .map(
             course ->
-                courseMapper.toCourseResponse(course, course.getTrainers(), course.getLevels()))
+                this.courseMapper.toCourseResponse(
+                    course, course.getTrainers(), course.getLevels()))
         .collect(Collectors.toList());
   }
 
-  public CourseResponse getCourseById(Long id) {
-    List<Trainer> trainerList = trainerRepository.findAll();
-    List<Level> levelList = levelRepository.findAll();
-    CourseResponse courseResponse =
-        courseMapper.toCourseResponse(courseRepository.getOne(id), trainerList, levelList);
+  @Override
+  public CourseResponse getCourseById(final Long id) {
+    final List<Trainer> trainerList = this.trainerRepository.findAll();
+    final List<Level> levelList = this.levelRepository.findAll();
+    final CourseResponse courseResponse =
+        this.courseMapper.toCourseResponse(
+            this.courseRepository.getOne(id), trainerList, levelList);
     log.info("Get Course By Id after course mapper {}", courseResponse);
     return courseResponse;
   }
 
   @Override
-  public CourseResponse createCourse(CourseRequest courseRequest) {
-    Course course = courseMapper.toCourseModel(courseRequest);
-    Course savedCourse = courseRepository.saveAndFlush(course);
+  public CourseResponse createCourse(final CourseRequest courseRequest) {
+    final Course course = this.courseMapper.toCourseModel(courseRequest);
+    final Course savedCourse = this.courseRepository.saveAndFlush(course);
     return getCourseById(savedCourse.getId());
   }
 
   @Override
-  public CourseRequest updateCourse(String courseId, CourseRequest courseRequest) {
+  public CourseRequest updateCourse(final String courseId, final CourseRequest courseRequest) {
     return null;
   }
 }
