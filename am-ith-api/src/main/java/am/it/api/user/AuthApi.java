@@ -6,6 +6,7 @@ import am.it.api.user.response.SignInResponse;
 import am.it.api.user.response.SignUpResponse;
 import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Api(value = "API endpoints to model", tags = "Teacher")
@@ -15,5 +16,5 @@ public interface AuthApi {
   ResponseEntity<SignUpResponse> register(SignUpRequest userRequestDto);
 
   @PostMapping(value = "/signin")
-  ResponseEntity<SignInResponse> login(SignInRequest signInRequest);
+  ResponseEntity<SignInResponse> login(SignInRequest signInRequest, Errors errors);
 }

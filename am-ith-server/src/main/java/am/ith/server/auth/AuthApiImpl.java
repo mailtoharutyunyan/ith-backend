@@ -5,6 +5,7 @@ import am.it.api.user.request.SignInRequest;
 import am.it.api.user.request.SignUpRequest;
 import am.it.api.user.response.SignInResponse;
 import am.it.api.user.response.SignUpResponse;
+import am.ith.server.validator.RequestFieldsValidator;
 import am.ith.service.model.User;
 import am.ith.service.security.JwtService;
 import am.ith.service.service.user.UserService;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +31,7 @@ class AuthApiImpl implements AuthApi {
   private final UserService userService;
   private final AuthenticationManager authenticationManager;
   private final JwtService jwtService;
+  private final RequestFieldsValidator requestFieldsValidator;
 
   public ResponseEntity<SignUpResponse> register(@Valid @RequestBody SignUpRequest request) {
     log.info("Calling signUp for {} {}", request.getEmail(), request.getUserName());
@@ -37,7 +40,9 @@ class AuthApiImpl implements AuthApi {
   }
 
   @Override
-  public ResponseEntity<SignInResponse> login(@Valid @RequestBody SignInRequest request) {
+  public ResponseEntity<SignInResponse> login(
+      @Valid @RequestBody SignInRequest request, Errors errors) {
+    requestFieldsValidator.validate(errors);
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword()));
     User user = userService.findByEmailOrUserName(request.getLogin());
