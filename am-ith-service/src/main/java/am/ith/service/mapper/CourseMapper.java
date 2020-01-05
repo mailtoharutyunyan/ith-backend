@@ -7,7 +7,6 @@ import am.it.api.topic.response.TopicResponse;
 import am.it.api.trainer.response.TrainerResponse;
 import am.ith.service.model.Course;
 import am.ith.service.model.Level;
-import am.ith.service.model.Topic;
 import am.ith.service.model.Trainer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -22,21 +21,6 @@ public final class CourseMapper {
   private final LevelMapper levelMapper;
   private final TrainerMapper trainerMapper;
 
-  public List<CourseResponse> toCourseResponseList(List<Course> courses, List<Topic> topics) {
-    return courses.stream()
-        .map(
-            course ->
-                new CourseResponse(
-                    course.getId(),
-                    course.getCoursePicture(),
-                    course.getCourseName(),
-                    course.getFirstCourseDescription(),
-                    course.getSecondCourseDescription(),
-                    levelMapper.toLevelResponseList(course.getLevels(), topics),
-                    trainerMapper.toTrainerResponse(course.getTrainers())))
-        .collect(Collectors.toList());
-  }
-
   public Course toCourseModel(CourseRequest courseRequest) {
     return Course.builder()
         .courseName(courseRequest.getCourseName())
@@ -47,7 +31,7 @@ public final class CourseMapper {
   }
 
   public CourseResponse toCourseResponse(
-      Course course, List<Trainer> trainerList, List<Topic> topicList, List<Level> levelList) {
+      Course course, List<Trainer> trainerList, List<Level> levelList) {
 
     List<TrainerResponse> trainerResponseList =
         trainerList.stream()
@@ -62,13 +46,17 @@ public final class CourseMapper {
                         trainer.getDeveloperImage()))
             .collect(Collectors.toList());
 
-    List<TopicResponse> topicResponses =
-        topicList.stream()
-            .map(topic -> new TopicResponse(topic.getTopicDetails()))
-            .collect(Collectors.toList());
     List<LevelResponse> levelResponseList =
         levelList.stream()
-            .map(level -> new LevelResponse(level.getLevelNumber(), topicResponses))
+            .map(
+                level -> {
+                  List<TopicResponse> topics =
+                      level.getTopics().stream()
+                          .map(topic -> new TopicResponse(topic.getId(), topic.getTopicDetails()))
+                          .collect(Collectors.toList());
+
+                  return new LevelResponse(level.getId(), level.getLevelNumber(), topics);
+                })
             .collect(Collectors.toList());
 
     return CourseResponse.builder()

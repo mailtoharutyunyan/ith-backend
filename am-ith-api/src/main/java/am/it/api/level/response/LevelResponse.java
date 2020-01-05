@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class LevelResponse {
+  private Long id;
   private String levelNumber;
   private List<TopicResponse> topics;
 }

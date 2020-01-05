@@ -61,7 +61,7 @@ public class LevelServiceImpl implements LevelService {
   }
 
   @Override
-  public LevelResponse getAllLevels() {
+  public List<LevelResponse> getAllLevels() {
     return null;
   }
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 public interface LevelApi {
-  @PostMapping(value = "/courses/{courseId}/level/create")
+  @PostMapping(value = "/courses/{courseId}/level")
   ResponseEntity<LevelResponse> createLevel(@PathVariable String courseId, @RequestBody LevelRequest levelRequest)
       throws Exception;
 }

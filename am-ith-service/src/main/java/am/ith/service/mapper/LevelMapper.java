@@ -26,6 +26,7 @@ public final class LevelMapper {
 
   public LevelResponse toLevelResponse(Level level) {
     return LevelResponse.builder()
+        .id(level.getId())
         .levelNumber(level.getLevelNumber())
         .topics(topicMapper.toTopicResponseList(level.getTopics()))
         .build();
@@ -34,10 +35,10 @@ public final class LevelMapper {
   public List<LevelResponse> toLevelResponseList(List<Level> levels, List<Topic> topics) {
     List<TopicResponse> topicResponses =
         topics.stream()
-            .map(topic -> new TopicResponse(topic.getTopicDetails()))
+            .map(topic -> new TopicResponse(topic.getId(), topic.getTopicDetails()))
             .collect(Collectors.toList());
     return levels.stream()
-        .map(level -> new LevelResponse(level.getLevelNumber(), topicResponses))
+        .map(level -> new LevelResponse(level.getId(), level.getLevelNumber(), topicResponses))
         .collect(Collectors.toList());
   }
 }

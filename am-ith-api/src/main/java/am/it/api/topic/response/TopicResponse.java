@@ -3,12 +3,13 @@ package am.it.api.topic.response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.UUID;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class TopicResponse {
-  private String topicDetails;
+  private Long id;
+  private String topic;
 }
