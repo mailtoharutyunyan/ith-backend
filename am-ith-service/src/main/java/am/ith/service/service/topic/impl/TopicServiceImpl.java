@@ -5,6 +5,7 @@ import am.it.api.topic.response.TopicResponse;
 import am.ith.service.exception.TopicNotFoundException;
 import am.ith.service.mapper.TopicMapper;
 import am.ith.service.model.Course;
+import am.ith.service.model.Level;
 import am.ith.service.model.Topic;
 import am.ith.service.repository.CourseRepository;
 import am.ith.service.repository.LevelRepository;
@@ -42,7 +43,9 @@ public class TopicServiceImpl implements TopicService {
               topics.add(topic[0]);
               level.setTopics(topics);
               level.setCourse(course);
-              return levelRepository.save(level);
+              Level savedLevel = levelRepository.save(level);
+              topic[0] = savedLevel.getTopics().get(savedLevel.getTopics().size() - 1);
+              return savedLevel;
             })
         .orElseThrow(TopicNotFoundException::new);
 
@@ -72,7 +75,7 @@ public class TopicServiceImpl implements TopicService {
                   topicRepository.deleteById(id);
                   return existingTopic;
                 })
-            .orElseThrow(() -> new TopicNotFoundException());
+            .orElseThrow(TopicNotFoundException::new);
     TopicResponse topicResponse = topicMapper.toTopicResponse(topic);
     log.info("Deleted topic {}", topicResponse);
     return topicResponse;
