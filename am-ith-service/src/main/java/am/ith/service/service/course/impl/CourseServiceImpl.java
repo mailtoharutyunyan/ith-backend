@@ -51,6 +51,7 @@ public class CourseServiceImpl implements CourseService {
         courseRepository
             .findById(id)
             .orElseThrow(() -> new ContentNotFoundException("Can't find course"));
+
     final Course course = courseMapper.toCourseModel(courseRequest);
     final Course combinedCourse = courseMapper.combineCourses(course, findCourse);
     final Course updatedCourse = courseRepository.saveAndFlush(combinedCourse);

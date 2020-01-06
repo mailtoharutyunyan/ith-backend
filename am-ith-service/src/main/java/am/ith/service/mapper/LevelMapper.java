@@ -24,6 +24,11 @@ public final class LevelMapper {
         .build();
   }
 
+  public Level combineLevels(final Level level, final Level finalLevel) {
+      finalLevel.setLevelNumber(level.getLevelNumber());
+      return finalLevel;
+  }
+
   public LevelResponse toLevelResponse(Level level) {
     return LevelResponse.builder()
         .id(level.getId())

@@ -27,5 +27,7 @@ public interface CourseApi {
 
   @PutMapping(value = "/courses/{courseId}")
   ResponseEntity<CourseResponse> updateCourse(
-      @PathVariable String courseId, @Valid @RequestBody final CourseRequest courseRequest);
+      @PathVariable String courseId,
+      @Valid @RequestBody final CourseRequest courseRequest,
+      final Errors errors);
 }

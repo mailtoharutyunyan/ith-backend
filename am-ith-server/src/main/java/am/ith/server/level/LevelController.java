@@ -4,6 +4,7 @@ import am.it.api.level.LevelApi;
 import am.it.api.level.request.LevelRequest;
 import am.it.api.level.response.LevelResponse;
 import am.ith.server.validator.RequestFieldsValidator;
+import am.ith.service.exception.LevelNotFountException;
 import am.ith.service.service.level.LevelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +24,35 @@ public class LevelController implements LevelApi {
   private final RequestFieldsValidator requestFieldsValidator;
 
   @Override
-  public ResponseEntity<LevelResponse> createLevel(String courseId, LevelRequest levelRequest, Errors errors)
+  public ResponseEntity<LevelResponse> createLevel(
+      final String courseId, final LevelRequest levelRequest, final Errors errors)
       throws Exception {
+
     requestFieldsValidator.validate(errors);
-    LevelResponse responseLevel = levelService.createLevel(Long.parseLong(courseId), levelRequest);
-    return ResponseEntity.status(HttpStatus.CREATED).body(responseLevel);
+    LevelResponse levelResponse = levelService.createLevel(Long.parseLong(courseId), levelRequest);
+    return ResponseEntity.status(HttpStatus.CREATED).body(levelResponse);
+  }
+
+  @Override
+  public ResponseEntity<LevelResponse> getLevelById(final String levelId)
+      throws LevelNotFountException {
+
+    LevelResponse levelResponse = levelService.getLevelById(Long.parseLong(levelId));
+    return ResponseEntity.status(HttpStatus.OK).body(levelResponse);
+  }
+
+  @Override
+  public ResponseEntity<LevelResponse> deleteLevelById(final String levelId) throws Exception {
+
+    LevelResponse levelResponse = levelService.deleteLevelById(Long.parseLong(levelId));
+    return ResponseEntity.status(HttpStatus.OK).body(levelResponse);
+  }
+
+  @Override
+  public ResponseEntity<LevelResponse> updateLevelById(
+      final String levelId, final LevelRequest levelRequest) throws Exception {
+
+    LevelResponse levelResponse = levelService.updateLevel(Long.parseLong(levelId), levelRequest);
+    return ResponseEntity.status(HttpStatus.OK).body(levelResponse);
   }
 }

@@ -53,7 +53,8 @@ public class CourseController implements CourseApi {
 
   @Override
   public ResponseEntity<CourseResponse> updateCourse(
-      final String courseId, @Valid final CourseRequest courseRequest) {
+      final String courseId, @Valid final CourseRequest courseRequest,Errors errors) {
+    requestFieldsValidator.validate(errors);
     final CourseResponse courseResponse =
         courseService.updateCourse(Long.parseLong(courseId), courseRequest);
     return ResponseEntity.status(HttpStatus.OK).body(courseResponse);
