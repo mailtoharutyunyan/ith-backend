@@ -95,7 +95,7 @@ public class LevelServiceImpl implements LevelService {
                 existingLevel -> {
                   Level currentLevel = levelMapper.toLevel(levelRequest, existingLevel.getTopics());
                   Level combinedLevel = levelMapper.combineLevels(currentLevel, existingLevel);
-                  return levelRepository.saveAndFlush(combinedLevel);
+                  return levelRepository.save(combinedLevel);
                 })
             .orElseThrow(() -> new LevelNotFountException("Can't find level"));
 

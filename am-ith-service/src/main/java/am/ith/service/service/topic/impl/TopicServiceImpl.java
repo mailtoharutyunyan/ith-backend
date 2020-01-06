@@ -2,12 +2,9 @@ package am.ith.service.service.topic.impl;
 
 import am.it.api.topic.request.TopicRequest;
 import am.it.api.topic.response.TopicResponse;
-import am.ith.service.exception.CourseNotFoundException;
 import am.ith.service.exception.TopicNotFoundException;
-import am.ith.service.mapper.LevelMapper;
 import am.ith.service.mapper.TopicMapper;
 import am.ith.service.model.Course;
-import am.ith.service.model.Level;
 import am.ith.service.model.Topic;
 import am.ith.service.repository.CourseRepository;
 import am.ith.service.repository.LevelRepository;
@@ -65,12 +62,38 @@ public class TopicServiceImpl implements TopicService {
   }
 
   @Override
-  public TopicResponse deleteById(Long id) {
-    return null;
+  public TopicResponse deleteById(Long id) throws TopicNotFoundException {
+
+    final Topic topic =
+        topicRepository
+            .findById(id)
+            .map(
+                existingTopic -> {
+                  topicRepository.deleteById(id);
+                  return existingTopic;
+                })
+            .orElseThrow(() -> new TopicNotFoundException());
+    TopicResponse topicResponse = topicMapper.toTopicResponse(topic);
+    log.info("Deleted topic {}", topicResponse);
+    return topicResponse;
   }
 
   @Override
-  public TopicResponse updateTopic(Long id, TopicRequest topicRequest) {
-    return null;
+  public TopicResponse updateTopicById(Long id, TopicRequest topicRequest)
+      throws TopicNotFoundException {
+
+    final Topic topic =
+        topicRepository
+            .findById(id)
+            .map(
+                existingTopic -> {
+                  Topic updateTopic = topicMapper.toTopic(topicRequest);
+                  Topic combinedTopic = topicMapper.combineTopic(updateTopic, existingTopic);
+                  return topicRepository.saveAndFlush(combinedTopic);
+                })
+            .orElseThrow(() -> new TopicNotFoundException("Can't find topic"));
+    TopicResponse topicResponse = topicMapper.toTopicResponse(topic);
+    log.info("Topic response {}", topicResponse);
+    return topicResponse;
   }
 }

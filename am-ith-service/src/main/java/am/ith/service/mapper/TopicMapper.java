@@ -24,6 +24,11 @@ public final class TopicMapper {
                 .build();
     }
 
+    public Topic combineTopic(Topic topic, Topic finalTopic) {
+        finalTopic.setTopicDetails(topic.getTopicDetails());
+        return finalTopic;
+    }
+
     public List<TopicResponse> toTopicResponseList(List<Topic> topics) {
         return topics.stream()
                 .map(topic -> new TopicResponse(topic.getId(), topic.getTopicDetails()))

@@ -13,7 +13,7 @@ public interface TopicService {
 
     List<TopicResponse> getTopics();
 
-    TopicResponse deleteById(Long id);
+    TopicResponse deleteById(Long id) throws TopicNotFoundException;
 
-    TopicResponse updateTopic(Long id, TopicRequest topicRequest);
+    TopicResponse updateTopicById(Long id, TopicRequest topicRequest) throws TopicNotFoundException;
 }

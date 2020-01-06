@@ -23,10 +23,28 @@ public class TopicController implements TopicApi {
   private final RequestFieldsValidator requestFieldsValidator;
 
   @Override
-  public ResponseEntity<TopicResponse> createLevel(
+  public ResponseEntity<TopicResponse> createTopic(
       String levelId, TopicRequest topicRequest, Errors errors) throws Exception {
+
     requestFieldsValidator.validate(errors);
     TopicResponse topicResponse = topicService.createTopic(Long.parseLong(levelId), topicRequest);
     return ResponseEntity.status(HttpStatus.CREATED).body(topicResponse);
+  }
+
+  @Override
+  public ResponseEntity<TopicResponse> updateTopicById(
+      final String topicId, final TopicRequest topicRequest, final Errors errors) throws Exception {
+
+    requestFieldsValidator.validate(errors);
+    TopicResponse topicResponse =
+        topicService.updateTopicById(Long.parseLong(topicId), topicRequest);
+    return ResponseEntity.status(HttpStatus.OK).body(topicResponse);
+  }
+
+  @Override
+  public ResponseEntity<TopicResponse> deleteTopicById(String topicId) throws Exception {
+
+    TopicResponse topicResponse = topicService.deleteById(Long.parseLong(topicId));
+    return ResponseEntity.status(HttpStatus.OK).body(topicResponse);
   }
 }
