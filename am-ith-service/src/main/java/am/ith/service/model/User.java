@@ -1,6 +1,7 @@
 package am.ith.service.model;
 
 import am.it.api.user.Role;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -16,6 +17,9 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Builder
 public class User extends AbstractPersistable<Long> implements Serializable {
 
@@ -23,6 +27,7 @@ public class User extends AbstractPersistable<Long> implements Serializable {
 
   @Column(name = "external_id", nullable = false)
   private String externalId;
+
 
   @Column(nullable = false, unique = true, length = 65)
   private String email;
