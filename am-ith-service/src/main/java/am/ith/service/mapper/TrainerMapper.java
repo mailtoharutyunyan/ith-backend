@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Component
 public final class TrainerMapper {
 
-  public Trainer toTeacher(TrainerRequest trainerRequest) {
+  public Trainer toTeacher(final TrainerRequest trainerRequest) {
     return Trainer.builder()
         .trainerName(trainerRequest.getTrainerName())
         .developerType(trainerRequest.getDeveloperType())
@@ -22,7 +22,7 @@ public final class TrainerMapper {
         .build();
   }
 
-  public TrainerResponse toTrainerResponse(Trainer trainer) {
+  public TrainerResponse toTrainerResponse(final Trainer trainer) {
     return TrainerResponse.builder()
         .trainerName(trainer.getTrainerName())
         .trainerPicture(trainer.getDeveloperImage())
@@ -33,7 +33,7 @@ public final class TrainerMapper {
         .build();
   }
 
-  public List<TrainerResponse> toTrainerResponse(List<Trainer> trainers) {
+  public List<TrainerResponse> toTrainerResponse(final List<Trainer> trainers) {
     return trainers.stream()
         .map(
             trainer ->

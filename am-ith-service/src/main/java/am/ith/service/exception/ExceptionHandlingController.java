@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionHandlingController {
 
   @ExceptionHandler(ResourceConflictException.class)
-  public ResponseEntity<ExceptionResponse> resourceConflict(ResourceConflictException ex) {
-    ExceptionResponse response = new ExceptionResponse();
+  public ResponseEntity<ExceptionResponse> resourceConflict(final ResourceConflictException ex) {
+    final ExceptionResponse response = new ExceptionResponse();
     response.setErrorCode("Conflict");
     response.setErrorMessage(ex.getMessage());
     return new ResponseEntity<>(response, HttpStatus.CONFLICT);
   }
 
   @ExceptionHandler(BaseException.class)
-  public ResponseEntity<ErrorResponseDto> handleBaseException(BaseException ex) {
+  public ResponseEntity<ErrorResponseDto> handleBaseException(final BaseException ex) {
     return new ResponseEntity<>(
         new ErrorResponseDto(ex.getErrorCode().getName(), ex.getErrors()),
         ex.getErrorCode().getStatus());

@@ -28,34 +28,34 @@ public class TopicServiceImpl implements TopicService {
   private final TopicMapper topicMapper;
 
   @Override
-  public TopicResponse createTopic(Long levelId, TopicRequest topicRequest)
+  public TopicResponse createTopic(final Long levelId, final TopicRequest topicRequest)
       throws TopicNotFoundException {
 
     final Topic[] topic = {null};
-    levelRepository
+      this.levelRepository
         .findById(levelId)
         .map(
             level -> {
               Course course = level.getCourse();
-              topic[0] = topicMapper.toTopic(topicRequest);
+              topic[0] = this.topicMapper.toTopic(topicRequest);
               topic[0].setLevel(level);
               List<Topic> topics = level.getTopics();
               topics.add(topic[0]);
               level.setTopics(topics);
               level.setCourse(course);
-              Level savedLevel = levelRepository.save(level);
+              Level savedLevel = this.levelRepository.save(level);
               topic[0] = savedLevel.getTopics().get(savedLevel.getTopics().size() - 1);
               return savedLevel;
             })
         .orElseThrow(TopicNotFoundException::new);
 
-    TopicResponse topicResponse = topicMapper.toTopicResponse(topic[0]);
+    final TopicResponse topicResponse = this.topicMapper.toTopicResponse(topic[0]);
     log.info("Topic response {}", topicResponse);
     return topicResponse;
   }
 
   @Override
-  public TopicResponse getTopicById(Long id) {
+  public TopicResponse getTopicById(final Long id) {
     return null;
   }
 
@@ -65,37 +65,37 @@ public class TopicServiceImpl implements TopicService {
   }
 
   @Override
-  public TopicResponse deleteById(Long id) throws TopicNotFoundException {
+  public TopicResponse deleteById(final Long id) throws TopicNotFoundException {
 
     final Topic topic =
-        topicRepository
+            this.topicRepository
             .findById(id)
             .map(
                 existingTopic -> {
-                  topicRepository.deleteById(id);
+                    this.topicRepository.deleteById(id);
                   return existingTopic;
                 })
             .orElseThrow(TopicNotFoundException::new);
-    TopicResponse topicResponse = topicMapper.toTopicResponse(topic);
+    final TopicResponse topicResponse = this.topicMapper.toTopicResponse(topic);
     log.info("Deleted topic {}", topicResponse);
     return topicResponse;
   }
 
   @Override
-  public TopicResponse updateTopicById(Long id, TopicRequest topicRequest)
+  public TopicResponse updateTopicById(final Long id, final TopicRequest topicRequest)
       throws TopicNotFoundException {
 
     final Topic topic =
-        topicRepository
+            this.topicRepository
             .findById(id)
             .map(
                 existingTopic -> {
-                  Topic updateTopic = topicMapper.toTopic(topicRequest);
-                  Topic combinedTopic = topicMapper.combineTopic(updateTopic, existingTopic);
-                  return topicRepository.saveAndFlush(combinedTopic);
+                  Topic updateTopic = this.topicMapper.toTopic(topicRequest);
+                  Topic combinedTopic = this.topicMapper.combineTopic(updateTopic, existingTopic);
+                  return this.topicRepository.saveAndFlush(combinedTopic);
                 })
             .orElseThrow(() -> new TopicNotFoundException("Can't find topic"));
-    TopicResponse topicResponse = topicMapper.toTopicResponse(topic);
+    final TopicResponse topicResponse = this.topicMapper.toTopicResponse(topic);
     log.info("Topic response {}", topicResponse);
     return topicResponse;
   }

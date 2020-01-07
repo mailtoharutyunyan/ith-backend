@@ -23,18 +23,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private final JwtService jwtService;
 
   @Override
-  protected void configure(HttpSecurity http) throws Exception {
+  protected void configure(final HttpSecurity http) throws Exception {
     http.cors()
-            .and()
+        .and()
         .csrf()
-            .disable()
+        .disable()
         .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
         .exceptionHandling()
-            .authenticationEntryPoint(
-                  (req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
-            .and()
+        .authenticationEntryPoint(
+            (req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+        .and()
         .authorizeRequests()
         .antMatchers(
             "/",
@@ -53,11 +53,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .authenticated();
 
     http.addFilterAfter(
-        new JwtTokenAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
+        new JwtTokenAuthenticationFilter(this.jwtService),
+        UsernamePasswordAuthenticationFilter.class);
   }
 
   @Override
-  public void configure(WebSecurity web) {
+  public void configure(final WebSecurity web) {
     web.ignoring().antMatchers("/api/v1/auth/signup").antMatchers("/api/v1/auth/signin");
   }
 

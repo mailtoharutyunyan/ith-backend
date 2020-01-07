@@ -32,62 +32,62 @@ public class JwtService {
 
   private String encodedKey;
 
-  public String generateToken(final List<Role> roles, String userExternalId) {
-    Claims claims = Jwts.claims();
+  public String generateToken(final List<Role> roles, final String userExternalId) {
+    final Claims claims = Jwts.claims();
     claims.put("roles", roles);
     claims.put("externalId", userExternalId);
     return Jwts.builder()
         .setClaims(claims)
         .setIssuedAt(new Date())
-        .setExpiration(generateExpirationDate())
-        .signWith(SignatureAlgorithm.HS256, encodedKey)
+        .setExpiration(this.generateExpirationDate())
+        .signWith(SignatureAlgorithm.HS256, this.encodedKey)
         .compact();
   }
 
   @PostConstruct
   protected void init() {
-    encodedKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));
+    this.encodedKey = Base64.getEncoder().encodeToString(this.secretKey.getBytes(StandardCharsets.UTF_8));
   }
 
   public Claims getAllClaimsFromToken(final String token) {
     Claims claims = null;
     try {
-      claims = Jwts.parser().setSigningKey(encodedKey).parseClaimsJws(token).getBody();
-    } catch (ExpiredJwtException e) {
+      claims = Jwts.parser().setSigningKey(this.encodedKey).parseClaimsJws(token).getBody();
+    } catch (final ExpiredJwtException e) {
 
       log.warn("Expired JWT token for: {}", token);
 
-    } catch (Exception e) {
+    } catch (final Exception e) {
       log.error("Can`t parse JWT TOKEN, token is: " + token, e);
     }
     return claims;
   }
 
   private Date generateExpirationDate() {
-    return new Date(new Date().getTime() + expirationTimeInMs);
+    return new Date(new Date().getTime() + this.expirationTimeInMs);
   }
 
   /**
    * @param token = ""
    * @return boolean
    */
-  public boolean isTokenValid(String token) {
+  public boolean isTokenValid(final String token) {
     try {
-      Jwts.parser().setSigningKey(encodedKey).parseClaimsJws(token);
+      Jwts.parser().setSigningKey(this.encodedKey).parseClaimsJws(token);
       return true;
-    } catch (JwtException | IllegalArgumentException ex) {
+    } catch (final JwtException | IllegalArgumentException ex) {
       return false;
     }
   }
 
-  public String getSubject(String token) {
-    return Jwts.parser().setSigningKey(encodedKey).parseClaimsJws(token).getBody().getSubject();
+  public String getSubject(final String token) {
+    return Jwts.parser().setSigningKey(this.encodedKey).parseClaimsJws(token).getBody().getSubject();
   }
 
-  public String getTokenFromHeader(HttpServletRequest request) {
-    String bearerToken = request.getHeader(authorization);
-    if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(bearer)) {
-      return bearerToken.substring(bearer.length() + 1);
+  public String getTokenFromHeader(final HttpServletRequest request) {
+    final String bearerToken = request.getHeader(this.authorization);
+    if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(this.bearer)) {
+      return bearerToken.substring(this.bearer.length() + 1);
     }
     return null;
   }

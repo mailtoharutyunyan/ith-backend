@@ -25,13 +25,13 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
   @Override
   protected void doFilterInternal(
-      HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+          final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain)
       throws ServletException, IOException {
 
-    String token = jwtService.getTokenFromHeader(request);
+    final String token = this.jwtService.getTokenFromHeader(request);
     if (token != null) {
 
-      Claims claims = jwtService.getAllClaimsFromToken(token);
+      final Claims claims = this.jwtService.getAllClaimsFromToken(token);
 
       if (claims != null) {
         ContextHolder.setUserId(claims.get("externalId").toString());
@@ -40,7 +40,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         @SuppressWarnings("unchecked")
         final List<String> authorities = (List<String>) claims.get("roles", List.class);
 
-        UsernamePasswordAuthenticationToken auth =
+        final UsernamePasswordAuthenticationToken auth =
             new UsernamePasswordAuthenticationToken(
                 null,
                 null,

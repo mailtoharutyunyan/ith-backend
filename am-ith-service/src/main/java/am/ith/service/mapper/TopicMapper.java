@@ -11,28 +11,22 @@ import java.util.stream.Collectors;
 @Component
 public final class TopicMapper {
 
-    public TopicResponse toTopicResponse(Topic topic) {
-        return TopicResponse.builder()
-                .id(topic.getId())
-                .topic(topic.getTopicDetails())
-                .build();
-    }
+  public TopicResponse toTopicResponse(final Topic topic) {
+    return TopicResponse.builder().id(topic.getId()).topic(topic.getTopicDetails()).build();
+  }
 
-    public Topic toTopic(TopicRequest topicRequest) {
-        return Topic.builder()
-                .topicDetails(topicRequest.getTopic())
-                .build();
-    }
+  public Topic toTopic(final TopicRequest topicRequest) {
+    return Topic.builder().topicDetails(topicRequest.getTopic()).build();
+  }
 
-    public Topic combineTopic(Topic topic, Topic finalTopic) {
-        finalTopic.setTopicDetails(topic.getTopicDetails());
-        return finalTopic;
-    }
+  public Topic combineTopic(final Topic topic, final Topic finalTopic) {
+    finalTopic.setTopicDetails(topic.getTopicDetails());
+    return finalTopic;
+  }
 
-    public List<TopicResponse> toTopicResponseList(List<Topic> topics) {
-        return topics.stream()
-                .map(topic -> new TopicResponse(topic.getId(), topic.getTopicDetails()))
-                .collect(Collectors.toList());
-    }
-
+  public List<TopicResponse> toTopicResponseList(final List<Topic> topics) {
+    return topics.stream()
+        .map(topic -> new TopicResponse(topic.getId(), topic.getTopicDetails()))
+        .collect(Collectors.toList());
+  }
 }

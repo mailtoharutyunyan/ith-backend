@@ -31,21 +31,21 @@ public class LevelServiceImpl implements LevelService {
       throws CourseNotFoundException {
 
     final Level[] level = {null};
-    courseRepository
+    this.courseRepository
         .findById(courseId)
         .map(
             findCourse -> {
-              level[0] = levelMapper.toLevel(levelRequest, topicRepository.findAll());
+              level[0] = this.levelMapper.toLevel(levelRequest, this.topicRepository.findAll());
               level[0].setCourse(findCourse);
-              levelRepository.saveAndFlush(level[0]);
-              List<Level> levelList = levelRepository.findAll();
+              this.levelRepository.saveAndFlush(level[0]);
+              List<Level> levelList = this.levelRepository.findAll();
               levelList.add(level[0]);
               findCourse.setLevels(levelList);
-              return courseRepository.saveAndFlush(findCourse);
+              return this.courseRepository.saveAndFlush(findCourse);
             })
         .orElseThrow(() -> new CourseNotFoundException("Can't find course"));
 
-    LevelResponse levelResponse = levelMapper.toLevelResponse(level[0]);
+    final LevelResponse levelResponse = this.levelMapper.toLevelResponse(level[0]);
     log.info("Level response {}", levelResponse);
     return levelResponse;
   }
@@ -54,27 +54,27 @@ public class LevelServiceImpl implements LevelService {
   public LevelResponse getLevelById(final Long levelId) throws LevelNotFountException {
 
     final Level level =
-        levelRepository
+        this.levelRepository
             .findById(levelId)
             .orElseThrow(() -> new LevelNotFountException("Can't find level"));
-    final LevelResponse levelResponse = levelMapper.toLevelResponse(level);
+    final LevelResponse levelResponse = this.levelMapper.toLevelResponse(level);
     log.info("Level response {}", levelResponse);
     return levelResponse;
   }
 
   @Override
-  public LevelResponse deleteLevelById(Long id) throws LevelNotFountException {
+  public LevelResponse deleteLevelById(final Long id) throws LevelNotFountException {
 
     final Level level =
-        levelRepository
+        this.levelRepository
             .findById(id)
             .map(
                 existingLevel -> {
-                  levelRepository.deleteById(id);
+                  this.levelRepository.deleteById(id);
                   return existingLevel;
                 })
             .orElseThrow(() -> new LevelNotFountException("Can't find level"));
-    LevelResponse levelResponse = levelMapper.toLevelResponse(level);
+    final LevelResponse levelResponse = this.levelMapper.toLevelResponse(level);
     log.info("Level response {}", levelResponse);
     return levelResponse;
   }
@@ -85,21 +85,22 @@ public class LevelServiceImpl implements LevelService {
   }
 
   @Override
-  public LevelResponse updateLevel(Long id, LevelRequest levelRequest)
+  public LevelResponse updateLevel(final Long id, final LevelRequest levelRequest)
       throws LevelNotFountException {
 
     final Level level =
-        levelRepository
+        this.levelRepository
             .findById(id)
             .map(
                 existingLevel -> {
-                  Level currentLevel = levelMapper.toLevel(levelRequest, existingLevel.getTopics());
-                  Level combinedLevel = levelMapper.combineLevels(currentLevel, existingLevel);
-                  return levelRepository.save(combinedLevel);
+                  Level currentLevel =
+                      this.levelMapper.toLevel(levelRequest, existingLevel.getTopics());
+                  Level combinedLevel = this.levelMapper.combineLevels(currentLevel, existingLevel);
+                  return this.levelRepository.save(combinedLevel);
                 })
             .orElseThrow(() -> new LevelNotFountException("Can't find level"));
 
-    LevelResponse levelResponse = levelMapper.toLevelResponse(level);
+    final LevelResponse levelResponse = this.levelMapper.toLevelResponse(level);
     log.info("Level response {}", levelResponse);
     return levelResponse;
   }

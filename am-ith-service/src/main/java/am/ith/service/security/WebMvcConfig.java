@@ -9,7 +9,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
   private static final int MAX_AGE_SECS = 3600;
 
   @Override
-  public void addCorsMappings(CorsRegistry registry) {
+  public void addCorsMappings(final CorsRegistry registry) {
     registry
         .addMapping("/**")
         .allowedOrigins("*")

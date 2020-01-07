@@ -14,22 +14,22 @@ public class UserDetailsImpl implements UserDetails {
 
   private static final long serialVersionUID = -9007978545294295340L;
 
-  private User user;
+  private final User user;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return Collections.<GrantedAuthority>singletonList(
-        new SimpleGrantedAuthority(user.getRoles().toString()));
+        new SimpleGrantedAuthority(this.user.getRoles().toString()));
   }
 
   @Override
   public String getPassword() {
-    return user.getPassword();
+    return this.user.getPassword();
   }
 
   @Override
   public String getUsername() {
-    return user.getUsername();
+    return this.user.getUsername();
   }
 
   @Override

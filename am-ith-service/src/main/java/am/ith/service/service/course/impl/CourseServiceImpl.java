@@ -27,7 +27,7 @@ public class CourseServiceImpl implements CourseService {
   public List<CourseResponse> getAllCourses() {
 
     final List<Course> courses = this.courseRepository.findAll();
-    return courses.stream().map(courseMapper::toCourseResponse).collect(Collectors.toList());
+    return courses.stream().map(this.courseMapper::toCourseResponse).collect(Collectors.toList());
   }
 
   @Override
@@ -42,32 +42,32 @@ public class CourseServiceImpl implements CourseService {
   public CourseResponse createCourse(final CourseRequest courseRequest) {
     final Course course = this.courseMapper.toCourseModel(courseRequest);
     final Course savedCourse = this.courseRepository.saveAndFlush(course);
-    return getCourseById(savedCourse.getId());
+    return this.getCourseById(savedCourse.getId());
   }
 
   @Override
   public CourseResponse updateCourse(final Long id, final CourseRequest courseRequest) {
     final Course findCourse =
-        courseRepository
+            this.courseRepository
             .findById(id)
             .orElseThrow(() -> new ContentNotFoundException("Can't find course"));
 
-    final Course course = courseMapper.toCourseModel(courseRequest);
-    final Course combinedCourse = courseMapper.combineCourses(course, findCourse);
-    final Course updatedCourse = courseRepository.saveAndFlush(combinedCourse);
-    final CourseResponse courseResponse = courseMapper.toCourseResponse(updatedCourse);
+    final Course course = this.courseMapper.toCourseModel(courseRequest);
+    final Course combinedCourse = this.courseMapper.combineCourses(course, findCourse);
+    final Course updatedCourse = this.courseRepository.saveAndFlush(combinedCourse);
+    final CourseResponse courseResponse = this.courseMapper.toCourseResponse(updatedCourse);
     log.info("Course response {}", courseResponse);
     return courseResponse;
   }
 
   @Override
-  public CourseResponse deleteCourseById(Long id) throws CourseNotFoundException {
+  public CourseResponse deleteCourseById(final Long id) throws CourseNotFoundException {
     final Course course =
-        courseRepository
+            this.courseRepository
             .findById(id)
             .orElseThrow(() -> new CourseNotFoundException("Can't find course"));
-    courseRepository.deleteById(id);
-    CourseResponse courseResponse = courseMapper.toCourseResponse(course);
+    this.courseRepository.deleteById(id);
+    final CourseResponse courseResponse = this.courseMapper.toCourseResponse(course);
     log.info("Course response {}", courseResponse);
     return courseResponse;
   }

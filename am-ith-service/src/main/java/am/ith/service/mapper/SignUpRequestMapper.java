@@ -20,8 +20,8 @@ public final class SignUpRequestMapper implements Function<SignUpRequest, User> 
    * @return the User
    */
   @Override
-  public User apply(SignUpRequest signUpRequest) {
-    User user = new User();
+  public User apply(final SignUpRequest signUpRequest) {
+    final User user = new User();
     user.setEmail(signUpRequest.getEmail().toLowerCase(Locale.ENGLISH));
     user.setUsername(signUpRequest.getUserName().toLowerCase(Locale.ENGLISH));
     user.setPassword(signUpRequest.getPassword());

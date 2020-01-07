@@ -17,10 +17,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   private final UserRepository userRepository;
 
   @Override
-  public UserDetails loadUserByUsername(String login) {
-    String userName = login.toLowerCase(Locale.ENGLISH);
+  public UserDetails loadUserByUsername(final String login) {
+    final String userName = login.toLowerCase(Locale.ENGLISH);
     final User user =
-        userRepository
+            this.userRepository
             .findByEmailOrUsername(userName, userName)
             .orElseThrow(
                 () -> new UsernameNotFoundException("Account not found for provided " + userName));

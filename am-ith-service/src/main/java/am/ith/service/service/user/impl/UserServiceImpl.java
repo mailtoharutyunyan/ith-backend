@@ -24,10 +24,11 @@ public class UserServiceImpl implements UserService {
   private final PasswordEncoder passwordEncoder;
   private final SignUpRequestMapper signUpRequestMapper;
 
+  @Override
   @Transactional
-  public SignUpResponse addUser(SignUpRequest request) {
+  public SignUpResponse addUser(final SignUpRequest request) {
 
-    if (userRepository.existsByEmail(request.getEmail())) {
+    if (this.userRepository.existsByEmail(request.getEmail())) {
       log.info(
           "Calling addUser for {}, {} and getting duplicate email",
           request.getEmail(),
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService {
       throw new AccountExistsException(ResponseStatus.EMAIL_EXISTS.getMessage());
     }
 
-    if (userRepository.existsByUsername(request.getUserName())) {
+    if (this.userRepository.existsByUsername(request.getUserName())) {
       log.info(
           "Calling addUser for {}, {} and getting duplicate username",
           request.getEmail(),
@@ -43,9 +44,9 @@ public class UserServiceImpl implements UserService {
       throw new AccountExistsException(ResponseStatus.USER_NAME_EXISTS.getMessage());
     }
 
-    User user = signUpRequestMapper.apply(request);
-    user.setPassword(passwordEncoder.encode(request.getPassword()));
-    userRepository.save(user);
+    final User user = this.signUpRequestMapper.apply(request);
+    user.setPassword(this.passwordEncoder.encode(request.getPassword()));
+    this.userRepository.save(user);
 
     return new SignUpResponse(ResponseStatus.ACCOUNT_CREATED.getMessage());
   }
@@ -53,7 +54,7 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional(readOnly = true)
   public User findByEmailOrUserName(final String userName) {
-    return userRepository
+    return this.userRepository
         .findByEmailOrUsername(userName, userName)
         .orElseThrow(
             () -> new UsernameNotFoundException("Account not found for provided " + userName));

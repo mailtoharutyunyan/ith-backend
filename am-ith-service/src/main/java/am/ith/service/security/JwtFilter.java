@@ -21,13 +21,13 @@ public class JwtFilter extends GenericFilterBean {
   private final UserDetailsServiceImpl userDetailsService;
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
+  public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain filterChain)
       throws IOException, ServletException {
-    String token = jwtService.getTokenFromHeader((HttpServletRequest) request);
-    if (token != null && jwtService.isTokenValid(token)) {
-      String subject = jwtService.getSubject(token);
-      UserDetails userDetails = userDetailsService.loadUserByUsername(subject);
-      Authentication auth =
+    final String token = this.jwtService.getTokenFromHeader((HttpServletRequest) request);
+    if (token != null && this.jwtService.isTokenValid(token)) {
+      final String subject = this.jwtService.getSubject(token);
+      final UserDetails userDetails = this.userDetailsService.loadUserByUsername(subject);
+      final Authentication auth =
           new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
       SecurityContextHolder.getContext().setAuthentication(auth);
     }
